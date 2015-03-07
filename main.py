@@ -18,13 +18,19 @@ def update_server():
 def main(argv):
     car_handler = CarHandler()
     loc_finder = LocationFinder()
-    #car_handler.initialise([Location(3,3), Location(5,5)])
     car_handler.initialise( loc_finder.createRndLocations() )
 
     sig_injector = SignalInjector()
     bgk_injector = BackgroundInjector()
     clock.setEnd(100)
     for _ in clock:
+        if clock.time == 10:
+            sig_injector.startShower(loc0 = Location(51, 13.7),
+                                     h0 = 25000,
+                                     angle = 0.3,
+                                     sigma = 0.03,
+                                     dt = 1e-6)
+                         
         signals = sig_injector.getSignal()
         background = bgk_injector.getBackground()
         combine = [background]+signals

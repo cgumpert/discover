@@ -5,7 +5,7 @@ from utility import gaussian, gps_dist_m, gps_delta_x
 
 
 class ShowerGenerator(object):
-    def __init__(self, loc0, h0, angle, duration, sigma, dt):
+    def __init__(self, loc0, h0, angle, sigma, dt):
         self._angle = angle
         self._time = 0
         self._loc0 = loc0
@@ -52,5 +52,5 @@ class SignalInjector(object):
     def getSignal(self):
         return [shower for shower in [shower.nextStep() for shower in self._showers] if shower is not None]
             
-    def startShower(self, angle, duration):
-        self._showers.append(ShowerGenerator(angle, duration))
+    def startShower(self, loc0, h0, angle, sigma, dt):
+        self._showers.append(ShowerGenerator(loc0, h0, angle, sigma, dt))

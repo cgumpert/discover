@@ -1,7 +1,7 @@
 from __future__ import division
 from Location import Location
 from functools import partial
-from utility import gaussian, gps_dist_m, gps_delta_x
+from utility import gaussian, gps_dist_m, gps_delta_x, rotate_around_ref
 import math
 
 
@@ -36,6 +36,7 @@ class ShowerGenerator(object):
         
 
     def prob_density(self, location):
+        location = rotate_around_ref(location, self._loc0, self._phi)
         if self.in_time_interval(location):
             return gaussian(self.angle_to_shower_axis(location), self._sigma)
         

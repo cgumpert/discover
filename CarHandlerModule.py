@@ -35,20 +35,29 @@ class CarHandler(object):
     ######################################## 
     
     #_______________________________________ 
-    def receiveSignal(self, sigFunc):
+    def receiveSignal(self, *injectors):
         if not self.isInit():
             print "CarHandler not initialised"
             return
 
         for car in self.__listOfCars:
-            prob, intens = sigFunc(car.getLocation())
+            self.__evalCar(car, injectors)
             
-            if not self.__evalProbValue(prob):
-                intens = 0
-
+    #_______________________________________ 
+    def __evalCar(self, *injectors):
+        sum_intens = 0
+        is_hit = False
+        
+        for injector in injectors:
+            prob, intens = injector(car.getLocation())
+            
+            if self.__evalProbValue(prob):
+                is_hit = True
+                sum_intens += intens
+    
+        if is_hit:
             car.receiveSignal(intens)
-
-
+    
     #_______________________________________ 
     def __evalProbValue(self, prob):
         rdn = random.random()

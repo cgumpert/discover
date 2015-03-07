@@ -5,6 +5,7 @@
 # python include(s)
 
 # package include(s)
+from Clock import clock
 
 
 ################################################################################
@@ -12,13 +13,11 @@ class Car(object):
     #_______________________________________ 
     def __init__(self, location, intensity = 0):
         self.__location = location
-        self.__intensity = intensity
 
     #_______________________________________ 
     def __str__(self):
         return "Car({0},{1},{2})".format(self.__location.x,
-                                         self.__location.y,
-                                         self.__intensity)
+                                         self.__location.y)
     
     #_______________________________________ 
     def __repr__(self):
@@ -26,11 +25,10 @@ class Car(object):
     
     #_______________________________________ 
     def getLocation(self): return self.__location
-    def getIntensity(self): return self.__intensity
 
     #_______________________________________ 
     def receiveSignal(self, intensity):
-        self.__intensity = intensity
+        print "Got Signal: {}".format(intensity)
 
     #_______________________________________ 
     def updateLocation(self, location):

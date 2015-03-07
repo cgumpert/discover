@@ -56,9 +56,11 @@ class Car(object):
         # http server
         conn = httplib.HTTPConnection("localhost:5000")
         url = "/new"
-        conn.request("POST", url, urllib.urlencode(package))
+        headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+        conn.request("POST", url, urllib.urlencode(package),headers)
         r1 = conn.getresponse()
-        print r1.status, r1.reason
+        if r1.reason != "OK":
+            print "error during HTTP request: %s" % r1.reason
         conn.close()
 
 

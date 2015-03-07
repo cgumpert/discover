@@ -2,22 +2,44 @@
 <html>
 <head>
 	<title>Discover</title>
+	<!--<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />-->
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mapbox.css') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename='mapbox.js') }}"></script>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 	<script type="text/javascript" src="{{ url_for('static', filename='socket.io.js') }}"></script>
 </head>
 <body>
 	<h1>Discover</h1>
+	<div id="map"></div>
 	<div id=log></div>
 	<script>
 	var socket = io.connect('http://' + document.domain + ':' + location.port + '/ws');
 	socket.on('data', function(d) {
 		<!--console.log(d);-->
 		var p = document.createElement("p");
-		
+
 		p.innerHTML = "Event in (" + d.data.x + ":" + d.data.y + ") at " + d.data.time+ " with intensity " + d.data.intensity;
 		document.getElementById("log").appendChild(p);
 		<!--socket.emit('my event', {data: 'I\'m connected!'});-->
 	});
+
+	L.mapbox.accessToken = 'pk.eyJ1IjoiY29ybnUiLCJhIjoiNXRVVk9RUSJ9.DOVqqIN-DRO11BdG79qIzQ';
+	var map = L.mapbox.map('map', 'cornu.ld81c45l').setView([51.05, 13.735], 13);
+
+	var geojsonFeature = {
+    "type": "Feature",
+    "properties": {
+        "name": "Coors Field",
+        "amenity": "Baseball Stadium",
+        "popupContent": "This is where the Rockies play!"
+    },
+    "geometry": {
+        "type": "Point",
+        "coordinates": [13.735, 51.05]
+    }
+	};
+	var myLayer = L.geoJson().addTo(map);
+	myLayer.addData(geojsonFeature);
 	</script>
 </body>
 </html>

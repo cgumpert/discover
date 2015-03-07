@@ -110,16 +110,16 @@ class LocationFinder(object):
         node_idx = random.randint(0,nNodes-1)
         node = way.nodes[node_idx]
 
-        return Location(node.lat, node.lon), [way_idx, node_idx]
+        return Location(float(node.lat), float(node.lon)), [way_idx, node_idx]
     
     #_______________________________________ 
-    def __getFullLocList(self):
-        l = []
-        for way in self.__streets.ways:
-            for node in way.nodes:
-                l.append(Location(node.lon, node.lat))
-
-        return l
+    #def __getFullLocList(self):
+    #    l = []
+    #    for way in self.__streets.ways:
+    #        for node in way.nodes:
+    #            l.append(Location(float(node.lon), float(node.lat)))
+    #
+    #    return l
     
 
     ########################################        

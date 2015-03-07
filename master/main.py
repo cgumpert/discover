@@ -2,15 +2,28 @@
 import sys
 sys.path.append("../")
 
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask.ext.restful import Resource, Api, reqparse
 from Location import Location
-app = Flask(__name__)
-api = Api(app)
+from flask_socketio import SocketIO, emit
 
-class Hello(Resource):
-    def get(self):
-        return 'Hello'
+DEBUG = True
+app = Flask(__name__)
+app.config.from_object(__name__)
+api = Api(app)
+socketio = SocketIO(app)
+
+@app.route("/")
+def hello():
+        return render_template('index.html')
+
+@socketio.on('connect', namespace='/test')
+def test_connect():
+    emit('my response', {'data': 'Connected'})
+
+@socketio.on('disconnect', namespace='/test')
+def test_disconnect():
+    print('Client disconnected')
 
 class Push(Resource):
     def post(self):
@@ -26,15 +39,11 @@ class Push(Resource):
         time = args['time']
         intensity = args['intensity']
 
-        print(location.x)
-        print(time)
-        print(intensity)
-
+        print("Event in ({}:{}) at {} with {}".format(location.x, location.y, time, intensity))
         return "Success"
 
-api.add_resource(Hello, '/')
 api.add_resource(Push, '/new')
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    socketio.run(app)
 

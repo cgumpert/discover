@@ -44,7 +44,7 @@ class CarHandler(object):
             self.__evalCar(car, injectors)
             
     #_______________________________________ 
-    def __evalCar(self, *injectors):
+    def __evalCar(self, car, *injectors):
         sum_intens = 0
         is_hit = False
         

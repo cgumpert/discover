@@ -3,7 +3,7 @@
 ################################################################################
 
 # python include(s)
-import httplib
+import httplib, urllib
 
 # package include(s)
 from Clock import clock
@@ -14,10 +14,6 @@ class Car(object):
     #_______________________________________ 
     def __init__(self, location):
         self.__location = location
-
-        # http server
-        self.__conn = httplib.HTTPConnection("localhost:5000")
-        self.__url = "/new"
 
 
     #_______________________________________ 
@@ -54,10 +50,16 @@ class Car(object):
     def __postSignal(self, intensity):
         package = {"x": self.__location.x,
                    "y": self.__location.y,
-                   "time": clock.time(),
+                   "time": clock.time,
                    "intensity": intensity}
 
-        self.__conn.request("POST", self.__url, package)
+        # http server
+        conn = httplib.HTTPConnection("localhost:5000")
+        url = "/new"
+        conn.request("POST", url, urllib.urlencode(package))
+        r1 = conn.getresponse()
+        print r1.status, r1.reason
+        conn.close()
 
 
 

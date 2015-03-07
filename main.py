@@ -1,14 +1,19 @@
 import sys
 from CarHandlerModule import CarHandler
 from Location import Location
+from SignalInjector import SignalInjector
+from BackgroundInjector import BackgroundInjector
+from Clock import clock
 
 def main(argv):
     car_handler = CarHandler()
+    sig_injector = SignalInjector()
+    bgk_injector = BackgroundInjector()
     
-    for time in xrange(0, time_end):
-        signal = sig_injector()
-        signal += bgk_injector()
-        car_handler.receiveSignal(signal)
+    for _ in clock:
+        signals = sig_injector.getSignal()
+        background = bgk_injector.getBackground()
+        car_handler.receiveSignal(background, signals)
     
 
 if __name__ == "__main__":

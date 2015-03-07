@@ -13,9 +13,10 @@ from Clock import clock
 ################################################################################
 class Car(object):
     #_______________________________________ 
-    def __init__(self, location, rel_res = 0.1):
+    def __init__(self, idx, location, rel_res = 0.1):
         self.__location = location
         self.__rel_res = rel_res
+        self.__id = idx
 
     #_______________________________________ 
     def __str__(self):
@@ -54,7 +55,8 @@ class Car(object):
 
     #_______________________________________ 
     def __postSignal(self, intensity):
-        package = {"x": self.__location.x,
+        package = {"id": self.__id,
+                   "x": self.__location.x,
                    "y": self.__location.y,
                    "time": clock.time,
                    "intensity": intensity}

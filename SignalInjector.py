@@ -6,13 +6,14 @@ import math
 
 
 class ShowerGenerator(object):
-    def __init__(self, loc0, h0, angle, sigma, dt):
+    def __init__(self, loc0, h0, phi, angle, sigma, dt):
         self._alpha = angle
         self._time = 0
         self._loc0 = loc0
         self._h0 = h0
         self._c = 3e8
         self._dt = dt
+        self._phi = phi
         self._sigma = sigma
         self._duration = self.transform_time(math.sqrt((self._h0*math.tan(self._alpha))**2 + self._h0**2)/self._c)
 
@@ -53,5 +54,5 @@ class SignalInjector(object):
     def getSignal(self):
         return [shower for shower in [shower.nextStep() for shower in self._showers] if shower is not None]
             
-    def startShower(self, loc0, h0, angle, sigma, dt):
-        self._showers.append(ShowerGenerator(loc0, h0, angle, sigma, dt))
+    def startShower(self, loc0, h0, phi, angle, sigma, dt):
+        self._showers.append(ShowerGenerator(loc0, h0, phi, angle, sigma, dt))

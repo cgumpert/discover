@@ -28,6 +28,7 @@ def main(argv):
         if clock.time == 10:
             sig_injector.startShower(loc0 = Location(51, 13.7),
                                      h0 = 25000,
+                                     phi = 0.,
                                      angle = 0.3,
                                      sigma = 0.03,
                                      dt = 1e-6)

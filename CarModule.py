@@ -5,14 +5,14 @@
 # python include(s)
 
 # package include(s)
-from location import location
+from Location import Location
 
 
 ################################################################################
 class Car(object):
     #_______________________________________ 
     def __init__(self):
-        self.__location = location(0,0)
+        self.__location = Location()
         self.__intensity = None
 
     #_______________________________________ 

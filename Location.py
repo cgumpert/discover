@@ -1,7 +1,7 @@
 class Location:
-    def __init__(self):
-        self._x = 0
-        self._y = 0
+    def __init__(self, x = 0, y = 0):
+        self._x = x
+        self._y = y
 
     @property
     def x(self):

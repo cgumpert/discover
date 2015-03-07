@@ -7,3 +7,4 @@ Visualization
 * Flask
 * Flask-restful
 * Flask-socketio
+* geojson

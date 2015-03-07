@@ -15,14 +15,6 @@
 	<div id=log></div>
 	<script>
 	var socket = io.connect('http://' + document.domain + ':' + location.port + '/ws');
-	socket.on('data', function(d) {
-		<!--console.log(d);-->
-		var p = document.createElement("p");
-
-		p.innerHTML = "Event in (" + d.data.x + ":" + d.data.y + ") at " + d.data.time+ " with intensity " + d.data.intensity;
-		document.getElementById("log").appendChild(p);
-		<!--socket.emit('my event', {data: 'I\'m connected!'});-->
-	});
 
 	L.mapbox.accessToken = 'pk.eyJ1IjoiY29ybnUiLCJhIjoiNXRVVk9RUSJ9.DOVqqIN-DRO11BdG79qIzQ';
 	var map = L.mapbox.map('map', 'cornu.ld81c45l').setView([51.05, 13.735], 13);
@@ -51,6 +43,17 @@
 	realtime.on('update', function() {
 		console.log("update");
 	});
+
+	socket.on('data', function(d) {
+		<!--console.log(d.data);-->
+		realtime.update(d);
+
+		var p = document.createElement("p");
+		<!--p.innerHTML = "Event in (" + d.data.x + ":" + d.data.y + ") at " + d.data.time+ " with intensity " + d.data.intensity;-->
+		<!--document.getElementById("log").appendChild(p);-->
+		<!--socket.emit('my event', {data: 'I\'m connected!'});-->
+	});
+
 	</script>
 </body>
 </html>

@@ -1,4 +1,5 @@
 from Location import Location
+from geojson import Point
 
 class Event:
     def __init__(self, location = Location(0, 0), time = 0, intensity = 0.0):
@@ -32,3 +33,9 @@ class Event:
 
     def __str__(self):
         return "Event in ({}:{}) at {} with {}".format(self._location.x, self._location.y, self._time, self._intensity)
+
+    @property
+    def __geo_interface__(self):
+        point = Point((self._location.x, self._location.y))
+        return {'type': 'Feature', 'properties': {'intensity': self._intensity}, 'geometry': point.__geo_interface__}
+

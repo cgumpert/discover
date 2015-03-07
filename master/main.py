@@ -7,6 +7,7 @@ from flask.ext.restful import Resource, Api, reqparse
 from Location import Location
 from Event import Event
 from flask_socketio import SocketIO, emit
+from geojson import Point, dumps
 
 DEBUG = True
 app = Flask(__name__)
@@ -17,8 +18,8 @@ socketio = SocketIO(app)
 events = {}
 
 @app.route("/")
-def hello():
-        return render_template('index.html')
+def index():
+    return render_template('index.html')
 
 @socketio.on('connect', namespace='/ws')
 def test_connect():
@@ -44,14 +45,9 @@ class Push(Resource):
 
         event = Event(location, time, intensity)
 
-        socketio.emit('data', {'data': {
-                'x': location.x,
-                'y': location.y,
-                'time': time,
-                'intensity': intensity,
-            }}, namespace='/ws')
+        socketio.emit('data', event.__geo_interface__, namespace='/ws')
 
-        print(event)
+        print(event.__geo_interface__)
         return "Success"
 
 class Update(Resource):

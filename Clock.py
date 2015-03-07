@@ -8,6 +8,9 @@ class ClockClass(object):
     def time(self):
         return self._time
 
+    def setEnd(self, end):
+        self._end = end
+        
     def __iter__(self):
         return self
 
@@ -18,7 +21,4 @@ class ClockClass(object):
         return self._time
 
 
-clock = None
-def init_clock(end = -1):
-    global clock
-    clock = ClockClass(end)
+clock = ClockClass()

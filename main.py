@@ -9,7 +9,7 @@ def main(argv):
     car_handler = CarHandler()
     sig_injector = SignalInjector()
     bgk_injector = BackgroundInjector()
-    init_clock()
+    clock.setEnd(10)
     for _ in clock:
         signals = sig_injector.getSignal()
         background = bgk_injector.getBackground()

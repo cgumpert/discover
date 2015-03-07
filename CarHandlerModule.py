@@ -53,8 +53,7 @@ class CarHandler(object):
             if self.__evalProbValue(prob):
                 sum_intens += intens
     
-        if sum_intens > 0:
-            car.receiveSignal(intens)
+        car.receiveSignal(sum_intens)
     
     #_______________________________________ 
     def __evalProbValue(self, prob):

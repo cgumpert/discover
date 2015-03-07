@@ -13,7 +13,7 @@ from Clock import clock
 ################################################################################
 class Car(object):
     #_______________________________________ 
-    def __init__(self, idx, location, rel_res = 0.1, eff = 0.4):
+    def __init__(self, idx, location, rel_res = 0.1, eff = 0.5):
         self.__location = location
         self.__rel_res = rel_res
         self.__eff = eff

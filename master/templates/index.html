@@ -59,6 +59,7 @@
 
 	socket.on('data', function(d) {
 		var geo = JSON.parse(d);
+		realtime.remove(geo);
 		realtime.update(geo);
 		<!--console.log(geo);-->
 	});

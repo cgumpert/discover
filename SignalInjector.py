@@ -38,7 +38,9 @@ class ShowerGenerator(object):
 
     def prob_density(self, location):
         location2 = rotate_around_ref(location, self._loc0, self._phi)
+        print location, location2
         if self.in_time_interval(location):
+            print self.angle_to_shower_axis(location2), self.angle_to_shower_axis(location)
             return gaussian(self.angle_to_shower_axis(location2), self._sigma)
         else:
             return 0.

@@ -4,7 +4,7 @@ import numpy as np
 
 if __name__ == "__main__":
     sig = SignalInjector()
-    sig.startShower(Location(55.5, 13.5), 25000, 0., 0., 0.2, 1e-6)
+    sig.startShower(Location(55.5, 13.5), 25000, 0., 0.3, 0.2, 1e-6)
     for t in xrange(10):
         xs = []
         ys = []

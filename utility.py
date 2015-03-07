@@ -5,7 +5,7 @@ import geopy.distance
 
 
 def gps_to_ecef(loc):
-    latitude = math.pi/180 * (loc.y - 90)
+    latitude = - math.pi/180 * (loc.y - 90)
     longitude = math.pi/180 * loc.x
     r = 6371000
     x = r * math.sin(latitude) * math.cos(longitude)

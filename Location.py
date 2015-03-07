@@ -17,4 +17,12 @@ class Location:
 
     @y.setter
     def y(self,value):
-        self._y = value        
+        self._y = value
+
+    def __str__(self):
+        return "Location({0},{1}) <{2}>".format(self._x, self._y, hex(id(self)))
+
+    def __repr__(self):
+        return self.__str__()
+
+

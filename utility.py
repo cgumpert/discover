@@ -5,7 +5,7 @@ import geopy.distance
 
 
 def gps_to_ecef(loc):
-    latitude = math.pi/180 * loc.y
+    latitude = math.pi/180 * (loc.y - 90)
     longitude = math.pi/180 * loc.x
     r = 6371000
     x = r * math.sin(latitude) * math.cos(longitude)
@@ -35,7 +35,7 @@ def enu_to_ecef(x_p, y_p, z_p, x_r, y_r, z_r):
 def ecef_to_gps(x, y, z):
     theta = math.acos(z/math.sqrt(x**2+y**2+z**2))*180/math.pi
     phi = math.atan2(y, x)*180/math.pi
-    return Location(phi, theta)
+    return Location(phi, -1 * (theta - 90))
 
 
 def enu_to_gps(x_p, y_p, z_p, ref):

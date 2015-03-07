@@ -57,8 +57,11 @@ class Car(object):
                    "time": clock.time,
                    "intensity": intensity}
 
-        
+        print urllib.urlencode(package)
         self.__conn.request("POST", self.__url, urllib.urlencode(package))
+        response = self.__conn.getresponse()
+        print response.status, response.reason
+        print response.read()
 
 
 

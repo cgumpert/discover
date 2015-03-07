@@ -17,11 +17,12 @@ socketio = SocketIO(app)
 def hello():
         return render_template('index.html')
 
-@socketio.on('connect', namespace='/test')
+@socketio.on('connect', namespace='/ws')
 def test_connect():
-    emit('my response', {'data': 'Connected'})
+    print('Client connected')
+    #emit('my response', {'data': 'Connected'})
 
-@socketio.on('disconnect', namespace='/test')
+@socketio.on('disconnect', namespace='/ws')
 def test_disconnect():
     print('Client disconnected')
 

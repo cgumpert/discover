@@ -53,7 +53,6 @@ class Car(object):
                    "time": clock.time,
                    "intensity": intensity}
 
-        
         # http server
         conn = httplib.HTTPConnection("localhost:5000")
         url = "/new"

@@ -44,7 +44,7 @@ class ShowerGenerator(object):
         if self._time > self._duration + 1:
             return None
         self._time += self._dt
-        return lambda loc: (self.prob_density(loc), 0.4*loc.y)
+        return lambda loc: (self.prob_density(loc), 0.4)
         
 
 class SignalInjector(object):

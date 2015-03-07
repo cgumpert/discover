@@ -10,11 +10,12 @@ def main(argv):
     car_handler.initialise([Location(3,3), Location(5,5)])
     sig_injector = SignalInjector()
     bgk_injector = BackgroundInjector()
-    clock.setEnd(10)
+    clock.setEnd(1000)
     for _ in clock:
         signals = sig_injector.getSignal()
         background = bgk_injector.getBackground()
-        car_handler.receiveSignal(background, signals)
+        combine = [background]+signals
+        car_handler.receiveSignal(*combine)
     
 
 if __name__ == "__main__":

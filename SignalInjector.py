@@ -18,6 +18,7 @@ class ShowerGenerator(object):
         self._duration = self.transform_time(math.sqrt((self._h0*math.tan(self._alpha+2*self._sigma))**2 + self._h0**2)/self._c)
         print self._duration
 
+        
     def transform_time(self, t):
         return t - self._h0/self._c
 
@@ -27,18 +28,18 @@ class ShowerGenerator(object):
 
 
     def angle_to_shower_axis(self, location):
-        return math.acos((gps_delta_x(location, self._loc0)*(self._h0*math.tan(self._alpha))+self._h0**2)/(self.distance_to_shower_start(location)*self._h0/math.cos(self._alpha)))
+        return math.acos((gps_delta_x(location, self._loc0)*(self._h0*math.tan(self._alpha))+self._h0**2)/(self.distance_to_shower_start(location)*abs(self._h0/math.cos(self._alpha))))
 
         
     def in_time_interval(self, location):
         t = self.transform_time(self.distance_to_shower_start(location)/self._c)
-        return self._time < t and self._time + self._dt > t
+        return self._time < t - self._dt and self._time + self._dt*5 > t
         
 
     def prob_density(self, location):
-        location = rotate_around_ref(location, self._loc0, self._phi)
+        location2 = rotate_around_ref(location, self._loc0, self._phi)
         if self.in_time_interval(location):
-            return gaussian(self.angle_to_shower_axis(location), self._sigma)
+            return gaussian(self.angle_to_shower_axis(location2), self._sigma)
         else:
             return 0.
         

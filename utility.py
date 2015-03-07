@@ -55,15 +55,16 @@ def gaussian(x, sigma, mu = 0):
 
 
 def gps_dist_m(loc1, loc2):
-    pt1 = geopy.Point(loc1.x, loc1.y)
-    pt2 = geopy.Point(loc2.x, loc2.y)
-    return geopy.distance.distance(pt1, pt2).m
-
+    #pt1 = geopy.Point(loc1.x, loc1.y)
+    #pt2 = geopy.Point(loc2.x, loc2.y)
+    #return geopy.distance.distance(pt1, pt2).m
+    x, y, z = gps_to_enu(loc1, loc2)
+    return math.sqrt(x**2+y**2)
 
 def gps_delta_x(loc1, loc2):
     x1, _, _ = gps_to_enu(loc1, loc1)
     x2, _, _ = gps_to_enu(loc2, loc1)
-    return abs(x1-x2)
+    return x1-x2
 
 
 def rotate_around_ref(location, ref, phi):

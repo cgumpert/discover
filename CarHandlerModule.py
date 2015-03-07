@@ -41,7 +41,7 @@ class CarHandler(object):
             return
 
         for car in self.__listOfCars:
-            self.__evalCar(car, injectors)
+            self.__evalCar(car, *injectors)
             
     #_______________________________________ 
     def __evalCar(self, car, *injectors):

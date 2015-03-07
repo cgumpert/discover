@@ -51,7 +51,7 @@ def gps_to_enu(loc,ref):
 
     
 def gaussian(x, sigma, mu = 0):
-    return 1./math.sqrt(2*np.pi* sigma**2)*math.exp(-(x-mu)**2/(2*sigma**2))
+    return 1./math.sqrt(2*math.pi* sigma**2)*math.exp(-(x-mu)**2/(2*sigma**2))
 
 
 def gps_dist_m(loc1, loc2):
@@ -61,9 +61,9 @@ def gps_dist_m(loc1, loc2):
 
 
 def gps_delta_x(loc1, loc2):
-    x1, _ = gps_to_enu(loc1, loc1)
-    x2, _ = gps_to_enu(loc2, loc1)
-    return math.abs(x1-x2)
+    x1, _, _ = gps_to_enu(loc1, loc1)
+    x2, _, _ = gps_to_enu(loc2, loc1)
+    return abs(x1-x2)
 
 
 def rotate_around_ref(location, ref, phi):

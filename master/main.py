@@ -7,15 +7,16 @@ from flask.ext.restful import Resource, Api, reqparse
 from Location import Location
 from Event import Event
 from flask_socketio import SocketIO, emit
-from geojson import Point, dumps
+from geojson import Point, FeatureCollection, dumps
 
-DEBUG = True
+#DEBUG = True
 app = Flask(__name__)
 app.config.from_object(__name__)
 api = Api(app)
 socketio = SocketIO(app)
 
-events = {}
+events = []
+evid = 0
 
 @app.route("/")
 def index():
@@ -31,6 +32,7 @@ def test_disconnect():
 
 class Push(Resource):
     def post(self):
+        global evid, events
         parser = reqparse.RequestParser()
         parser.add_argument('x', type=float)
         parser.add_argument('y', type=float)
@@ -43,15 +45,26 @@ class Push(Resource):
         time = args['time']
         intensity = args['intensity']
 
-        event = Event(location, time, intensity)
+        event = Event(location, time, intensity, evid)
+        evid += 1
+        events.append(event)
 
-        socketio.emit('data', event.__geo_interface__, namespace='/ws')
+        #socketio.emit('data', event.__geo_interface__, namespace='/ws')
 
-        print(event.__geo_interface__)
         return "Success"
 
 class Update(Resource):
     def post(self):
+        global evid, events
+
+        #print("Update")
+        #print(FeatureCollection(events))
+        #socketio.emit('data', events[0].__geo_interface__, namespace='/ws')
+        features = FeatureCollection(events)
+        #print(features)
+        socketio.emit('data', dumps(features), namespace='/ws')
+        events = []
+        evid = 0
         return "OK"
 
 api.add_resource(Push, '/new')

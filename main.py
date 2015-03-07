@@ -12,6 +12,7 @@ def update_server():
     url = "/update"
     headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
     conn.request("POST", url)
+    conn.getresponse()
     conn.close()
     
 def main(argv):

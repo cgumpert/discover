@@ -5,19 +5,19 @@ class Location:
 
     @property
     def x(self):
-        return self._x
+        return float(self._x)
 
     @x.setter
     def x(self,value):
-        self._x = value
+        self._x = float(value)
 
     @property
     def y(self):
-        return self._y
+        return float(self._y)
 
     @y.setter
     def y(self,value):
-        self._y = value
+        self._y = float(value)
 
     def __str__(self):
         return "Location({0},{1}) <{2}>".format(self._x, self._y, hex(id(self)))

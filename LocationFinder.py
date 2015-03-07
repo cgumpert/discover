@@ -110,7 +110,7 @@ class LocationFinder(object):
         node_idx = random.randint(0,nNodes-1)
         node = way.nodes[node_idx]
 
-        return Location(float(node.lat), float(node.lon)), [way_idx, node_idx]
+        return Location(float(node.lon), float(node.lat)), [way_idx, node_idx]
     
     #_______________________________________ 
     #def __getFullLocList(self):

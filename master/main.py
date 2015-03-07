@@ -1,4 +1,6 @@
 #!/bin/python2
+import sys
+sys.path.append("../")
 
 from flask import Flask, request
 from flask.ext.restful import Resource, Api, reqparse
@@ -27,6 +29,8 @@ class Push(Resource):
         print(location.x)
         print(time)
         print(intensity)
+
+        return "Success"
 
 api.add_resource(Hello, '/')
 api.add_resource(Push, '/new')

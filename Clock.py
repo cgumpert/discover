@@ -16,5 +16,9 @@ class ClockClass(object):
             raise StopIteration()
         self._time += 1
         return self._time
-        
-clock = ClockClass()
+
+
+clock = None
+def init_clock(end = -1):
+    global clock
+    clock = ClockClass(end)

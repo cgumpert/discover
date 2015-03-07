@@ -46,7 +46,6 @@ class CarHandler(object):
     #_______________________________________ 
     def __evalCar(self, car, *injectors):
         sum_intens = 0
-        is_hit = False
         
         for injector in injectors:
             prob, intens = injector(car.getLocation())
@@ -55,8 +54,7 @@ class CarHandler(object):
                 is_hit = True
                 sum_intens += intens
     
-        if is_hit:
-            car.receiveSignal(intens)
+        car.receiveSignal(intens)
     
     #_______________________________________ 
     def __evalProbValue(self, prob):

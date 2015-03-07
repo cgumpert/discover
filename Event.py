@@ -42,7 +42,7 @@ class Event:
 
 
     def __str__(self):
-        return "Event in ({}:{}) at {} with {}".format(self._location.x, self._location.y, self._time, self._intensity)
+        return "Event in ({}:{}) at {} with {} ({})".format(self._location.x, self._location.y, self._time, self._intensity, self._id)
 
     @property
     def __geo_interface__(self):

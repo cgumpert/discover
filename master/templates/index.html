@@ -2,34 +2,66 @@
 <html>
 <head>
 	<title>Discover</title>
-	<!--<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />-->
+	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mapbox.css') }}">
 	<script type="text/javascript" src="{{ url_for('static', filename='mapbox.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='leaflet-realtime.min.js') }}"></script>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 	<script type="text/javascript" src="{{ url_for('static', filename='socket.io.js') }}"></script>
+	<script type="text/javascript" src="{{ url_for('static', filename='color.js') }}"></script>
 </head>
 <body>
 	<h1>Discover</h1>
 	<div id="map"></div>
 	<script>
 	var socket = io.connect('http://' + document.domain + ':' + location.port + '/ws');
+	var color = net.brehaut.Color;
 
 	L.mapbox.accessToken = 'pk.eyJ1IjoiY29ybnUiLCJhIjoiNXRVVk9RUSJ9.DOVqqIN-DRO11BdG79qIzQ';
 	var map = L.mapbox.map('map', 'cornu.ld81c45l').setView([51.04, 13.735], 12);
 
+	var geojsonMarkerOptions = {
+		radius: 8,
+		fillColor: "#000",
+		color: "#fff",
+		weight: 1,
+		opacity: 0.5,
+		fillOpacity: 1
+	};
+
 	var realtime = L.realtime(undefined, {
 		getFeatureId: function(f) { return f.id; },
-		start: false
+		start: false,
+		pointToLayer: function (feature, latlng) {
+			return L.circleMarker(latlng, geojsonMarkerOptions);
+		},
+		style: function(f) {
+			<!--console.log(f);-->
+			var intensity = f.properties.intensity;
+			<!--console.log(color({hue: 120 - intensity * 120, saturation: 1, value: 1}).toCSS());-->
+			return {"fillColor": color({hue: 360 - intensity * 360, saturation: 1, value: 1}).toCSS()};
+		}
 	}).addTo(map);
 
-	socket.on('data', function(d) {
-		geo = JSON.parse(d)
-		realtime.update(geo);
+	realtime.on('update', function(e) {
 
-		var p = document.createElement("p");
+		<!--var bindcolor = function(fid) {-->
+			<!--var intensity = e.features[fid].properties.intensity;-->
+
+		<!--};-->
+		<!--intensity = -->
+		<!--console.log(e);-->
 	});
 
+	realtime.setStyle(function(f) {
+		return {color: "#ff00000"};
+	});
+
+	socket.on('data', function(d) {
+		var geo = JSON.parse(d);
+		realtime.update(geo);
+		<!--console.log(geo);-->
+	});
 	</script>
 </body>
 </html>

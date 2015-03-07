@@ -1,7 +1,7 @@
 import random
 
 class BackgroundInjector:
-    def __init__(self,threshold=0.2,intensity=0.05):
+    def __init__(self,threshold=0.4,intensity=0.1):
         self._threshold = threshold
         self._intensity = intensity
 

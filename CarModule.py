@@ -13,7 +13,7 @@ from Clock import clock
 ################################################################################
 class Car(object):
     #_______________________________________ 
-    def __init__(self, idx, location, rel_res = 0.1, eff = 0.5):
+    def __init__(self, idx, location, rel_res = 0.1, eff = 0.8):
         self.__location = location
         self.__rel_res = rel_res
         self.__eff = eff
@@ -64,7 +64,7 @@ class Car(object):
     #_______________________________________ 
     def __checkEff(self, intensity):
         rdn = random.random()
-        if self.__eff <= rdn:
+        if rdn <= self.__eff:
             return intensity
         else:
             return 0

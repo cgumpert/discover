@@ -58,7 +58,7 @@ class CarHandler(object):
     #_______________________________________ 
     def __evalProbValue(self, prob):
         rdn = random.random()
-        if prob <= rdn:
+        if rdn <= prob:
             return True
         else:
             return False

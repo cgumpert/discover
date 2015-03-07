@@ -43,7 +43,7 @@ class Car(object):
 
     #_______________________________________ 
     def __smearIntensity(self, intensity):
-        return random.gauss(intensity, intensity.self.__rel_res)
+        return random.gauss(intensity, intensity*self.__rel_res)
     
     #_______________________________________ 
     def __saturateIntensity(self, intensity):

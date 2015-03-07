@@ -15,10 +15,6 @@ class Car(object):
     def __init__(self, location):
         self.__location = location
 
-        # http server
-        self.__conn = httplib.HTTPConnection("localhost:5000")
-        self.__url = "/new"
-
 
     #_______________________________________ 
     def __str__(self):
@@ -58,7 +54,13 @@ class Car(object):
                    "intensity": intensity}
 
         
-        self.__conn.request("POST", self.__url, urllib.urlencode(package))
+        # http server
+        conn = httplib.HTTPConnection("localhost:5000")
+        url = "/new"
+        conn.request("POST", url, urllib.urlencode(package))
+        r1 = conn.getresponse()
+        print r1.status, r1.reason
+        conn.close()
 
 
 

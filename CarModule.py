@@ -16,7 +16,7 @@ class Car(object):
 
     #_______________________________________ 
     def __str__(self):
-        return "Car({0},{1},{2})".format(self.__location.x,
+        return "Car({0},{1})".format(self.__location.x,
                                          self.__location.y)
     
     #_______________________________________ 
@@ -24,14 +24,23 @@ class Car(object):
         return self.__str__()
     
     #_______________________________________ 
-    def getLocation(self): return self.__location
-
-    #_______________________________________ 
-    def receiveSignal(self, intensity):
-        print "Got Signal: {}".format(intensity)
+    def getLocation(self):
+        return self.__location
 
     #_______________________________________ 
     def updateLocation(self, location):
         self.__location = location
-    
+
+    #_______________________________________ 
+    def receiveSignal(self, intensity):
+        intensity = self.__saturateIntensity(intensity)
+        print "Got Signal: {}".format(intensity)
+
+    #_______________________________________ 
+    def __saturateIntensity(self, intensity):
+        if intensity > 1:
+            return 1
+        else:
+            return intensity
+
 

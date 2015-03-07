@@ -64,3 +64,10 @@ def gps_delta_x(loc1, loc2):
     x1, _ = gps_to_enu(loc1, loc1)
     x2, _ = gps_to_enu(loc2, loc1)
     return math.abs(x1-x2)
+
+
+def rotate_around_ref(location, ref, phi):
+    x, y, z = gps_to_enu(location, ref)
+    x_rot = math.cos(phi)*x - math.sin(phi)*y
+    y_rot = math.sin(phi)*x + math.cos(phi)*y
+    return enu_to_gps(x_rot, y_rot, z, ref)

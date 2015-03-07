@@ -16,7 +16,7 @@
 	var socket = io.connect('http://' + document.domain + ':' + location.port + '/ws');
 
 	L.mapbox.accessToken = 'pk.eyJ1IjoiY29ybnUiLCJhIjoiNXRVVk9RUSJ9.DOVqqIN-DRO11BdG79qIzQ';
-	var map = L.mapbox.map('map', 'cornu.ld81c45l').setView([51.05, 13.735], 12);
+	var map = L.mapbox.map('map', 'cornu.ld81c45l').setView([51.04, 13.735], 12);
 
 	var realtime = L.realtime(undefined, {
 		getFeatureId: function(f) { return f.id; },

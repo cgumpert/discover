@@ -16,7 +16,6 @@ api = Api(app)
 socketio = SocketIO(app)
 
 events = []
-evid = 0
 
 @app.route("/")
 def index():
@@ -32,30 +31,29 @@ def test_disconnect():
 
 class Push(Resource):
     def post(self):
-        global evid, events
+        global events
         parser = reqparse.RequestParser()
         parser.add_argument('x', type=float)
         parser.add_argument('y', type=float)
         parser.add_argument('time', type=int)
         parser.add_argument('intensity', type=float)
+        parser.add_argument('id', type=int)
 
         args = parser.parse_args()
 
         location = Location(args['x'], args['y'])
         time = args['time']
         intensity = args['intensity']
+        id = args['id']
 
-        event = Event(location, time, intensity, evid)
-        evid += 1
+        event = Event(location, time, intensity, id)
         events.append(event)
-
-        #socketio.emit('data', event.__geo_interface__, namespace='/ws')
 
         return "Success"
 
 class Update(Resource):
     def post(self):
-        global evid, events
+        global events
 
         #print("Update")
         #print(FeatureCollection(events))
@@ -64,7 +62,6 @@ class Update(Resource):
         #print(features)
         socketio.emit('data', dumps(features), namespace='/ws')
         events = []
-        evid = 0
         return "OK"
 
 api.add_resource(Push, '/new')

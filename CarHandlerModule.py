@@ -91,7 +91,9 @@ class CarHandler(object):
         try:
             self.clear()
             for location in locationList:
-                self.__listOfCars.append(Car(location))
+                self.__listOfCars.append(Car(locationList.index(location),
+                                             location)
+                                        )
        
             self.__isInit = True
         

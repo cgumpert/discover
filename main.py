@@ -18,7 +18,8 @@ def update_server():
 def main(argv):
     car_handler = CarHandler()
     loc_finder = LocationFinder()
-    car_handler.initialise( loc_finder.createRndLocations() )
+    #car_handler.initialise( loc_finder.createRndLocations() )
+    car_handler.initialise( loc_finder.loadLocationListFromPickle("share/locationList50.p") )
 
     sig_injector = SignalInjector()
     bgk_injector = BackgroundInjector()

@@ -1,4 +1,5 @@
 from Location import Location
+from functools import partial
 
 def shower_generator(angle, duration):
     for step in duration:
@@ -12,4 +13,4 @@ class SignalInjector(object):
         return [shower.next() for shower in self._showers]
             
     def startShower(self, angle, duration):
-        
+        self._showers.append(partial(shower_generator, angle, duration))

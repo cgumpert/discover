@@ -3,7 +3,7 @@
 ################################################################################
 
 # python include(s)
-import httplib
+import httplib, urllib
 
 # package include(s)
 from Clock import clock
@@ -54,10 +54,11 @@ class Car(object):
     def __postSignal(self, intensity):
         package = {"x": self.__location.x,
                    "y": self.__location.y,
-                   "time": clock.time(),
+                   "time": clock.time,
                    "intensity": intensity}
 
-        self.__conn.request("POST", self.__url, package)
+        
+        self.__conn.request("POST", self.__url, urllib.urlencode(package))
 
 
 

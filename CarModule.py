@@ -4,6 +4,7 @@
 
 # python include(s)
 import httplib, urllib
+import random
 
 # package include(s)
 from Clock import clock
@@ -12,9 +13,9 @@ from Clock import clock
 ################################################################################
 class Car(object):
     #_______________________________________ 
-    def __init__(self, location):
+    def __init__(self, location, rel_res = 0.1):
         self.__location = location
-
+        self.__rel_res = rel_res
 
     #_______________________________________ 
     def __str__(self):
@@ -35,10 +36,15 @@ class Car(object):
 
     #_______________________________________ 
     def receiveSignal(self, intensity):
+        intensity = self.__smearIntensity(intensity)
         intensity = self.__saturateIntensity(intensity)
         self.__postSignal(intensity)
         #print "Got Signal: {}".format(intensity)
 
+    #_______________________________________ 
+    def __smearIntensity(self, intensity):
+        return random.gauss(intensity, intensity.self.__rel_res)
+    
     #_______________________________________ 
     def __saturateIntensity(self, intensity):
         if intensity > 1:

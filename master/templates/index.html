@@ -6,13 +6,17 @@
 	<script type="text/javascript" src="{{ url_for('static', filename='socket.io.js') }}"></script>
 </head>
 <body>
-	<div class=page>
 	<h1>Discover</h1>
-	</div>
+	<div id=log></div>
 	<script>
 	var socket = io.connect('http://' + document.domain + ':' + location.port + '/ws');
-	socket.on('connect', function() {
-		socket.emit('my event', {data: 'I\'m connected!'});
+	socket.on('data', function(d) {
+		<!--console.log(d);-->
+		var p = document.createElement("p");
+		
+		p.innerHTML = "Event in (" + d.data.x + ":" + d.data.y + ") at " + d.data.time+ " with intensity " + d.data.intensity;
+		document.getElementById("log").appendChild(p);
+		<!--socket.emit('my event', {data: 'I\'m connected!'});-->
 	});
 	</script>
 </body>

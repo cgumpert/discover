@@ -20,7 +20,6 @@ def hello():
 @socketio.on('connect', namespace='/ws')
 def test_connect():
     print('Client connected')
-    #emit('my response', {'data': 'Connected'})
 
 @socketio.on('disconnect', namespace='/ws')
 def test_disconnect():
@@ -39,6 +38,19 @@ class Push(Resource):
         location = Location(args['x'], args['y'])
         time = args['time']
         intensity = args['intensity']
+
+        socketio.emit('data', {'data': {
+                'x': location.x,
+                'y': location.y,
+                'time': time,
+                'intensity': intensity,
+            }}, namespace='/ws')
+        #emit('data', {"data": {
+                #'x': location.x,
+                #'y': location.y,
+                #'time': time,
+                #'intensity': intensity,}
+            #})
 
         print("Event in ({}:{}) at {} with {}".format(location.x, location.y, time, intensity))
         return "Success"

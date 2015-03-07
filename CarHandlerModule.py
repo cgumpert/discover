@@ -3,6 +3,7 @@
 ################################################################################
 
 # python include(s)
+import random
 
 # package include(s)
 from CarModule import Car
@@ -28,9 +29,43 @@ class CarHandler(object):
     def __str__(self):
         return self.__listOfCars.__repr__()
     
+    
+    ########################################        
+    # Signal Handling
+    ######################################## 
+    
     #_______________________________________ 
-    def receiveSignal(self, sigFunc):
-        pass
+    def receiveSignal(self, *injectors):
+        if not self.isInit():
+            print "CarHandler not initialised"
+            return
+
+        for car in self.__listOfCars:
+            self.__evalCar(car, injectors)
+            
+    #_______________________________________ 
+    def __evalCar(self, *injectors):
+        sum_intens = 0
+        is_hit = False
+        
+        for injector in injectors:
+            prob, intens = injector(car.getLocation())
+            
+            if self.__evalProbValue(prob):
+                is_hit = True
+                sum_intens += intens
+    
+        if is_hit:
+            car.receiveSignal(intens)
+    
+    #_______________________________________ 
+    def __evalProbValue(self, prob):
+        rdn = random.random()
+        if prob <= rdn:
+            return True
+        else:
+            return False
+
     
     ########################################        
     # Getter

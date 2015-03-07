@@ -5,6 +5,7 @@ sys.path.append("../")
 from flask import Flask, request, render_template
 from flask.ext.restful import Resource, Api, reqparse
 from Location import Location
+from Event import Event
 from flask_socketio import SocketIO, emit
 
 DEBUG = True
@@ -12,6 +13,8 @@ app = Flask(__name__)
 app.config.from_object(__name__)
 api = Api(app)
 socketio = SocketIO(app)
+
+events = {}
 
 @app.route("/")
 def hello():
@@ -39,6 +42,8 @@ class Push(Resource):
         time = args['time']
         intensity = args['intensity']
 
+        event = Event(location, time, intensity)
+
         socketio.emit('data', {'data': {
                 'x': location.x,
                 'y': location.y,
@@ -46,10 +51,15 @@ class Push(Resource):
                 'intensity': intensity,
             }}, namespace='/ws')
 
-        print("Event in ({}:{}) at {} with {}".format(location.x, location.y, time, intensity))
+        print(event)
         return "Success"
 
+class Update(Resource):
+    def post(self):
+        return "OK"
+
 api.add_resource(Push, '/new')
+api.add_resource(Update, '/update')
 
 if __name__ == "__main__":
     socketio.run(app)

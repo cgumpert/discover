@@ -51,7 +51,6 @@ class CarHandler(object):
             prob, intens = injector(car.getLocation())
             
             if self.__evalProbValue(prob):
-                is_hit = True
                 sum_intens += intens
     
         car.receiveSignal(intens)
@@ -101,13 +100,6 @@ class CarHandler(object):
             print "CarHandler - Error during initialisation"
             self.clear()
             raise
-
-    #_______________________________________ 
-    
-    
-    #_______________________________________ 
-    #_______________________________________ 
-    
 
 
 

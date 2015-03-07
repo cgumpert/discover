@@ -20,12 +20,21 @@ class Car(object):
 
     #_______________________________________ 
     def __str__(self):
-        return "Car({0},{1})".format(self.__location.x,
-                                     self.__location.y)
+        return "Car({0},{1},{2})".format(self.__id,
+                                         self.__location.x,
+                                         self.__location.y)
     
     #_______________________________________ 
     def __repr__(self):
         return self.__str__()
+    
+    #_______________________________________ 
+    def getID(self):
+        return self.__id
+
+    #_______________________________________ 
+    def updateID(self, value):
+        self.__id = value
     
     #_______________________________________ 
     def getLocation(self):

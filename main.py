@@ -7,6 +7,7 @@ from Clock import clock
 
 def main(argv):
     car_handler = CarHandler()
+    car_handler.initialise([Location(3,3), Location(5,5)])
     sig_injector = SignalInjector()
     bgk_injector = BackgroundInjector()
     clock.setEnd(10)

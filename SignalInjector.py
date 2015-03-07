@@ -2,11 +2,12 @@ from __future__ import division
 from Location import Location
 from functools import partial
 from utility import gaussian, gps_dist_m, gps_delta_x
+import math
 
 
 class ShowerGenerator(object):
     def __init__(self, loc0, h0, angle, sigma, dt):
-        self._angle = angle
+        self._alpha = angle
         self._time = 0
         self._loc0 = loc0
         self._h0 = h0
@@ -30,7 +31,7 @@ class ShowerGenerator(object):
         
     def in_time_interval(self, location):
         t = self.distance_to_shower_start(location)/self._c 
-        return self.trans_time(self._time) < t and trans_time(self._time + self._dt) > t
+        return self.transform_time(self._time) < t and self.transform_time(self._time + self._dt) > t
         
 
     def prob_density(self, location):

@@ -19,7 +19,7 @@ def main(argv):
     car_handler = CarHandler()
     loc_finder = LocationFinder()
     #car_handler.initialise( loc_finder.createRndLocations() )
-    car_handler.initialise( loc_finder.loadLocationListFromPickle("share/locationList50.p") )
+    car_handler.initialise( loc_finder.loadLocationListFromPickle("share/locationList100.p") )
 
     sig_injector = SignalInjector()
     bgk_injector = BackgroundInjector()

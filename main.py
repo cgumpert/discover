@@ -31,7 +31,7 @@ def main(argv):
                                      phi = 0.,
                                      angle = 0.,
                                      sigma = 0.3,
-                                     dt = 1e-6)
+                                     dt = 3e-7)
                          
         signals = sig_injector.getSignal()
         background = bgk_injector.getBackground()

@@ -11,12 +11,11 @@ class ShowerGenerator(object):
         self._time = 0
         self._loc0 = loc0
         self._h0 = h0
-        self._c = 3e7
+        self._c = 3e8
         self._dt = dt
         self._phi = phi
         self._sigma = sigma
         self._duration = self.transform_time(math.sqrt((self._h0*math.tan(self._alpha+2*self._sigma))**2 + self._h0**2)/self._c)
-        print self._duration
 
         
     def transform_time(self, t):
@@ -33,7 +32,7 @@ class ShowerGenerator(object):
         
     def in_time_interval(self, location):
         t = self.transform_time(self.distance_to_shower_start(location)/self._c)
-        return self._time < t - self._dt and self._time + self._dt*5 > t
+        return self._time - self._dt*2 < t  and self._time + self._dt*5 > t
         
 
     def prob_density(self, location):
@@ -47,7 +46,7 @@ class ShowerGenerator(object):
         if self._time > self._duration + 1:
             return None
         self._time += self._dt
-        return lambda loc: (self.prob_density(loc), 0.4)
+        return lambda loc: (self.prob_density(loc), self.prob_density(loc))
         
 
 class SignalInjector(object):

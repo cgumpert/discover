@@ -90,7 +90,7 @@ def runLive(args):
     clock.setEnd(args.timesteps)
     for _ in clock:
         print clock.time
-        if clock.time == 50:
+        if clock.time == args.timesteps - 1 and args.record_file == "":
             clock.reset()
         
         if clock.time == 1:

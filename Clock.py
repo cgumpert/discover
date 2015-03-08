@@ -8,6 +8,9 @@ class ClockClass(object):
     def time(self):
         return self._time
 
+    def reset(self):
+        self._time = 0
+        
     def setEnd(self, end):
         self._end = end
         

@@ -31,7 +31,7 @@ class ShowerGenerator(object):
         
     def in_time_interval(self, location):
         t = self.transform_time(self.distance_to_shower_start(location)/self._c)
-        return self._time - self._dt*2 < t  and self._time + self._dt*5 > t
+        return self._time - self._dt*1.5 < t  and self._time + self._dt*1.5 > t
         
 
     def prob_density(self, location):

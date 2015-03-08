@@ -18,19 +18,19 @@ def update_server():
 def main(argv):
     car_handler = CarHandler()
     loc_finder = LocationFinder()
-    #car_handler.initialise( loc_finder.createRndLocations() )
+    #car_handler.initialise( loc_finder.createRndLocations(100) )
     car_handler.initialise( loc_finder.loadLocationListFromPickle("share/locationList100.p") )
 
     sig_injector = SignalInjector()
-    bgk_injector = BackgroundInjector()
-    clock.setEnd(100)
+    bgk_injector = BackgroundInjector(threshold=0.)
+    clock.setEnd(1000)
     for _ in clock:
         if clock.time == 10:
-            sig_injector.startShower(loc0 = Location(51, 13.7),
-                                     h0 = 25000,
+            sig_injector.startShower(loc0 = Location(13.735, 51.04),
+                                     h0 = 15000,
                                      phi = 0.,
-                                     angle = 0.3,
-                                     sigma = 0.03,
+                                     angle = 0.,
+                                     sigma = 0.3,
                                      dt = 1e-6)
                          
         signals = sig_injector.getSignal()

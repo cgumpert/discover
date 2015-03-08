@@ -3,24 +3,25 @@
 <head>
 	<title>Discover</title>
 	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-	<!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mapbox.css') }}">-->
-	<!--<script type="text/javascript" src="{{ url_for('static', filename='mapbox.js') }}"></script>-->
-	<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
-	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
+	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mapbox.css') }}">
+	<script type="text/javascript" src="{{ url_for('static', filename='mapbox.js') }}"></script>
+	<!--<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>-->
+	<!--<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />-->
 	<script type="text/javascript" src="{{ url_for('static', filename='leaflet-realtime.min.js') }}"></script>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 	<script type="text/javascript" src="{{ url_for('static', filename='socket.io.js') }}"></script>
 	<script type="text/javascript" src="{{ url_for('static', filename='color.js') }}"></script>
 </head>
 <body>
-	<h1>Discover</h1>
 	<div id="map"></div>
+	<h1><img src="/static/logo.png" /></h1>
 	<script>
 	var socket = io.connect('http://' + document.domain + ':' + location.port + '/ws');
 	var color = net.brehaut.Color;
 
 	L.mapbox.accessToken = 'pk.eyJ1IjoiY29ybnUiLCJhIjoiNXRVVk9RUSJ9.DOVqqIN-DRO11BdG79qIzQ';
 	var map = L.mapbox.map('map', 'cornu.ld81c45l').setView([51.04, 13.735], 12);
+	map.zoomControl.removeFrom(map);
 
 	var geojsonMarkerOptions = {
 		radius: 8,

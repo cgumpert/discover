@@ -49,13 +49,14 @@ class CarHandler(object):
         sum_intens = 0
         
         for injector in injectors:
-            prob, intens = injector(car.getLocation())
+            prob, intens, isSignal = injector(car.getLocation())
             
             #if car.getID() == 1:
                 #print "EvalCar: {0}, {1}".format(prob, intens)
                 #self.__checkInjector(injector)
 
-            if hasattr(injector, "isSignal"):
+            if isSignal:
+                #print "{0}: {1}".format(prob, intens)
                 intens = prob
 
             if self.__evalProbValue(prob):
@@ -84,8 +85,8 @@ class CarHandler(object):
 
         for x in xv:
             for y in yv:
-                prob, intens = injector(Location(x,y))
-                print "\t({0},{1}): {2}, {3}".format(x,y,prob,intens)
+                prob, intens, isSignal = injector(Location(x,y))
+                print "\t({0},{1},{2}): {3}, {4}".format(x,y,isSignal,prob,intens)
 
 
     ########################################        

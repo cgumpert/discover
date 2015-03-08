@@ -16,7 +16,6 @@ class ShowerGenerator(object):
         self._phi = phi
         self._sigma = sigma
         self._duration = self.transform_time(math.sqrt((self._h0*math.tan(self._alpha+2*self._sigma))**2 + self._h0**2)/self._c)
-        self.isSignal = True
         
     def transform_time(self, t):
         return t - self._h0/self._c
@@ -46,7 +45,7 @@ class ShowerGenerator(object):
         if self._time > self._duration + 1:
             return None
         self._time += self._dt
-        return lambda loc: (self.prob_density(loc), 1.)
+        return lambda loc: (self.prob_density(loc), 1., True)
         
 
 class SignalInjector(object):

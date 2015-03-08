@@ -6,4 +6,4 @@ class BackgroundInjector:
         self._intensity = intensity
 
     def getBackground(self):
-        return lambda loc : (self._threshold,random.expovariate(1./self._intensity))
+        return lambda loc : (self._threshold,random.expovariate(1./self._intensity), False)

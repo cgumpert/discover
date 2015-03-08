@@ -22,7 +22,7 @@ def main(argv):
     car_handler.initialise( loc_finder.loadLocationListFromPickle("share/locationList1000.p") )
 
     sig_injector = SignalInjector()
-    bgk_injector = BackgroundInjector(threshold=0.)
+    bgk_injector = BackgroundInjector(threshold=0.4)
     clock.setEnd(1000)
     for _ in clock:
         if clock.time == 10:

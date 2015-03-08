@@ -8,6 +8,7 @@ from Location import Location
 from Event import Event
 from flask_socketio import SocketIO, emit
 from geojson import Point, FeatureCollection, dumps
+import pickle
 
 #DEBUG = True
 app = Flask(__name__)
@@ -16,6 +17,7 @@ api = Api(app)
 socketio = SocketIO(app)
 
 events = []
+rec_events = []
 
 @app.route("/")
 def index():
@@ -54,16 +56,50 @@ class Push(Resource):
 class Update(Resource):
     def post(self):
         global events
-
+        global rec_events
+        parser = reqparse.RequestParser()
+        parser.add_argument('recordTarget', type=str)
+        parser.add_argument('recordReplay', type=str)
+        args = parser.parse_args()
+        recordTarget = args['recordTarget']
+        recordReplay = args['recordReplay']
+        
         #print("Update")
         #print(FeatureCollection(events))
         #socketio.emit('data', events[0].__geo_interface__, namespace='/ws')
+
+        if recordReplay != "":
+            #events = getEventsFromPickle(recordReplay).next()
+            if rec_events == []:
+                f_in = open(recordReplay, 'rb')
+                while True:
+                    try:
+                        rec_events.append(pickle.load(f_in))
+                    except EOFError:
+                        break
+                f_in.close()
+            else:
+                events = rec_events[0]
+                del rec_events[0]
+            
         features = FeatureCollection(events)
         #print(features)
         socketio.emit('data', dumps(features), namespace='/ws')
+
+        # dump to pickle
+        if recordTarget != "":
+            pickle.dump(events, open(recordTarget, "ab"))
+        
+            
         events = []
         return "OK"
 
+
+def getEventsFromPickle(f_name):
+    f_in = open(f_name, 'rb')
+    for obj in f_in:
+        yield pickle.load(f_in)
+    
 api.add_resource(Push, '/new')
 api.add_resource(Update, '/update')
 

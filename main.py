@@ -1,21 +1,30 @@
 import sys
-import httplib
+import httplib, urllib
 from CarHandlerModule import CarHandler
 from Location import Location
 from LocationFinder import LocationFinder
 from SignalInjector import SignalInjector
 from BackgroundInjector import BackgroundInjector
 from Clock import clock
+import time
 
-def update_server():
+def update_server(recordTarget = "", recordReplay = ""):
     conn = httplib.HTTPConnection("localhost:5000")
+    package = {"recordTarget": recordTarget, "recordReplay": recordReplay}
+    header = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
     url = "/update"
-    headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
-    conn.request("POST", url)
+    conn.request("POST", url,
+                 urllib.urlencode(package),
+                 header)
     conn.getresponse()
     conn.close()
     
 def main(argv):
+
+    doRecord = ""
+    doReplay = "save_events.pickle"
+    
+    
     car_handler = CarHandler()
     loc_finder = LocationFinder()
     #car_handler.initialise( loc_finder.createRndLocations(300) )
@@ -25,6 +34,10 @@ def main(argv):
     bgk_injector = BackgroundInjector(threshold=0.4)
     clock.setEnd(1000)
     for _ in clock:
+        if doReplay != "":
+            update_server(doRecord, doReplay)
+            time.sleep(0.5)
+            continue
         if clock.time == 10:
             sig_injector.startShower(loc0 = Location(13.735, 51.04),
                                      h0 = 15000,

@@ -83,21 +83,31 @@ def runLive(args):
     car_handler = CarHandler()
     loc_finder = LocationFinder()
     #car_handler.initialise( loc_finder.createRndLocations(300) )
-    car_handler.initialise( loc_finder.loadLocationListFromPickle("share/locationList100.p") )
+    car_handler.initialise( loc_finder.loadLocationListFromPickle("share/locationList1000.p") )
 
     sig_injector = SignalInjector()
     bgk_injector = BackgroundInjector(threshold=0.4)
     clock.setEnd(args.timesteps)
     for _ in clock:
         print clock.time
-        if clock.time == 10:
+        if clock.time == 50:
+            clock.reset()
+        
+        if clock.time == 1:
             sig_injector.startShower(loc0 = Location(13.735, 51.04),
-                                     h0 = 15000,
+                                     h0 = 25000,
                                      phi = 0.,
                                      angle = 0.,
                                      sigma = 0.3,
                                      dt = 3e-7)
-                         
+        if clock.time == 30:
+            sig_injector.startShower(loc0 = Location(13.78, 51.04),
+                                     h0 = 25000,
+                                     phi = 0.,
+                                     angle = math.pi/6,
+                                     sigma = 0.5,
+                                     dt = 3e-7)
+        
         signals = sig_injector.getSignal()
         background = bgk_injector.getBackground()
         combine = [background]+signals

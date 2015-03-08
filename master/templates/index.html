@@ -3,8 +3,10 @@
 <head>
 	<title>Discover</title>
 	<meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
-	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mapbox.css') }}">
-	<script type="text/javascript" src="{{ url_for('static', filename='mapbox.js') }}"></script>
+	<!--<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='mapbox.css') }}">-->
+	<!--<script type="text/javascript" src="{{ url_for('static', filename='mapbox.js') }}"></script>-->
+	<script src='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.js'></script>
+	<link href='https://api.tiles.mapbox.com/mapbox.js/v2.1.5/mapbox.css' rel='stylesheet' />
 	<script type="text/javascript" src="{{ url_for('static', filename='leaflet-realtime.min.js') }}"></script>
 	<link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='style.css') }}">
 	<script type="text/javascript" src="{{ url_for('static', filename='socket.io.js') }}"></script>
@@ -26,7 +28,7 @@
 		color: "#fff",
 		weight: 1,
 		opacity: 0.5,
-		fillOpacity: 1
+		fillOpacity: 0.2
 	};
 
 	var realtime = L.realtime(undefined, {
@@ -39,7 +41,17 @@
 			<!--console.log(f);-->
 			var intensity = f.properties.intensity;
 			<!--console.log(color({hue: 120 - intensity * 120, saturation: 1, value: 1}).toCSS());-->
-			return {"fillColor": color({hue: 120 - intensity * 120, saturation: 1, value: 1}).toCSS()};
+			if (intensity == 0) {
+				return {
+					"fillColor": '#7f8c8d',
+					"fillOpacity": 0.7
+				};
+			} else {
+				return {
+					"fillColor": color({hue: 120 - intensity * 120, saturation: 1, value: 1}).toCSS(),
+					"fillOpacity": 1
+				};
+			}
 		}
 	}).addTo(map);
 

@@ -51,7 +51,7 @@ def gps_to_enu(loc,ref):
 
     
 def gaussian(x, sigma, mu = 0):
-    return 1./math.sqrt(2*math.pi* sigma**2)*math.exp(-(x-mu)**2/(2*sigma**2))
+    return math.exp(-(x-mu)**2/(2*sigma**2))
 
 
 def gps_dist_m(loc1, loc2):

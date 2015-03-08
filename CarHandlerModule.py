@@ -4,6 +4,7 @@
 
 # python include(s)
 import random
+import numpy
 
 # package include(s)
 from CarModule import Car
@@ -48,8 +49,13 @@ class CarHandler(object):
         sum_intens = 0
         
         for injector in injectors:
+            #prob, intens = injector(Location(car.getLocation().y, car.getLocation().x))
             prob, intens = injector(car.getLocation())
             
+            #if car.getID() == 1:
+                #print "EvalCar: {0}, {1}".format(prob, intens)
+                #self.__checkInjector(injector)
+
             if self.__evalProbValue(prob):
                 sum_intens += intens
     
@@ -63,7 +69,23 @@ class CarHandler(object):
         else:
             return False
 
-    
+    #_______________________________________ 
+    def __checkInjector(self, injector):
+        print "Call CheckInjector..."
+        s = 50.9591
+        w = 13.5770
+        n = 51.1024
+        e = 13.8963
+
+        xv = numpy.linspace(w, e, 10)
+        yv = numpy.linspace(s, n, 10)
+
+        for x in xv:
+            for y in yv:
+                prob, intens = injector(Location(x,y))
+                print "\t({0},{1}): {2}, {3}".format(x,y,prob,intens)
+
+
     ########################################        
     # Getter
     ######################################## 

@@ -7,6 +7,7 @@ from SignalInjector import SignalInjector
 from BackgroundInjector import BackgroundInjector
 from Clock import clock
 import time
+import math
 
 def update_server(recordTarget = "", recordReplay = ""):
     conn = httplib.HTTPConnection("localhost:5000")
@@ -22,7 +23,7 @@ def update_server(recordTarget = "", recordReplay = ""):
 def main(argv):
 
     doRecord = ""
-    doReplay = "save_events.pickle"
+    doReplay = ""
     
     
     car_handler = CarHandler()
@@ -38,14 +39,22 @@ def main(argv):
             update_server(doRecord, doReplay)
             time.sleep(0.5)
             continue
-        if clock.time == 10:
+        if clock.time == 1:
             sig_injector.startShower(loc0 = Location(13.735, 51.04),
-                                     h0 = 15000,
+                                     h0 = 25000,
                                      phi = 0.,
                                      angle = 0.,
                                      sigma = 0.3,
                                      dt = 3e-7)
-                         
+        if clock.time == 30:
+            sig_injector.startShower(loc0 = Location(13.78, 51.04),
+                                     h0 = 25000,
+                                     phi = 0.,
+                                     angle = math.pi/6,
+                                     sigma = 0.5,
+                                     dt = 3e-7)
+
+            
         signals = sig_injector.getSignal()
         background = bgk_injector.getBackground()
         combine = [background]+signals

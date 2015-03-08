@@ -53,14 +53,14 @@ def runLive(args):
         if clock.time == args.timesteps - 1 and args.record_file == "":
             clock.reset()
         
-        if clock.time == 1:
+        if clock.time == 10:
             sig_injector.startShower(loc0 = Location(13.735, 51.04),
                                      h0 = 25000,
                                      phi = 0.,
                                      angle = 0.,
                                      sigma = 0.3,
                                      dt = 3e-7)
-        if clock.time == 30:
+        if clock.time == 25:
             sig_injector.startShower(loc0 = Location(13.78, 51.04),
                                      h0 = 25000,
                                      phi = 0.,

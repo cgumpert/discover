@@ -18,6 +18,7 @@ socketio = SocketIO(app)
 
 events = []
 rec_events = []
+rec_idx = 0
 
 @app.route("/")
 def index():
@@ -57,6 +58,7 @@ class Update(Resource):
     def post(self):
         global events
         global rec_events
+        global rec_idx
         parser = reqparse.RequestParser()
         parser.add_argument('recordTarget', type=str)
         parser.add_argument('recordReplay', type=str)
@@ -79,8 +81,11 @@ class Update(Resource):
                         break
                 f_in.close()
             else:
-                events = rec_events[0]
-                del rec_events[0]
+                events = rec_events[rec_idx]
+                if rec_idx == len(rec_events)-1:
+                    rec_idx = 0
+                else:
+                    rec_idx += 1
             
         features = FeatureCollection(events)
         #print(features)

@@ -27,63 +27,23 @@ def main(argv):
     argument_parser = setupArgParse()
     args = argument_parser.parse_args()
 
+    print vars(args)
+
     args.func(args)
 
-"""
-def main(argv):
-    # setup argparse
-    argument_parser = setupArgParse()
-    args = argument_parser.parse_args()
-
-    doRecord = ""
-    doReplay = ""
-    
-    
-    car_handler = CarHandler()
-    loc_finder = LocationFinder()
-    #car_handler.initialise( loc_finder.createRndLocations(300) )
-    car_handler.initialise( loc_finder.loadLocationListFromPickle("share/locationList1000.p") )
-
-    sig_injector = SignalInjector()
-    bgk_injector = BackgroundInjector(threshold=0.4)
-    clock.setEnd(1000)
-    for _ in clock:
-        if clock.time == 50:
-            clock.reset()
-        if doReplay != "":
-            update_server(doRecord, doReplay)
-            time.sleep(0.5)
-            continue
-        if clock.time == 1:
-            sig_injector.startShower(loc0 = Location(13.735, 51.04),
-                                     h0 = 25000,
-                                     phi = 0.,
-                                     angle = 0.,
-                                     sigma = 0.3,
-                                     dt = 3e-7)
-        if clock.time == 30:
-            sig_injector.startShower(loc0 = Location(13.78, 51.04),
-                                     h0 = 25000,
-                                     phi = 0.,
-                                     angle = math.pi/6,
-                                     sigma = 0.5,
-                                     dt = 3e-7)
-        
-            
-        signals = sig_injector.getSignal()
-        background = bgk_injector.getBackground()
-        combine = [background]+signals
-        car_handler.receiveSignal(*combine)
-        update_server(doRecord)
-"""
-    
 
 #_______________________________________ 
 def runLive(args):
     car_handler = CarHandler()
     loc_finder = LocationFinder()
     #car_handler.initialise( loc_finder.createRndLocations(300) )
-    car_handler.initialise( loc_finder.loadLocationListFromPickle("share/locationList1000.p") )
+    #car_handler.initialise( loc_finder.loadLocationListFromPickle("share/locationList1000.p") )
+
+    if args.rnd_cars:
+        args.rnd_cars = abs(args.rnd_cars)
+        car_handler.initialise( loc_finder.createRndLocations(args.rnd_cars) )
+    else:
+        car_handler.initialise( loc_finder.loadLocationListFromPickle(args.location_file) )
 
     sig_injector = SignalInjector()
     bgk_injector = BackgroundInjector(threshold=0.4)
@@ -115,13 +75,12 @@ def runLive(args):
         update_server(args.record_file, "")
 
 #_______________________________________ 
-def runRecord(args):
+def runReplay(args):
    clock.setEnd(args.timesteps)
    for _ in clock:
        print clock.time
        update_server("", args.input_file)
-       time.sleep(0.5)
-       continue
+       time.sleep(args.time_per_frame)
 
 #_______________________________________ 
 def setupArgParse():
@@ -141,6 +100,7 @@ def setupArgParse():
     ## sub parser
     # live
     live_parser = subparsers.add_parser('live', parents = [base_parser],
+                                        formatter_class = argparse.ArgumentDefaultsHelpFormatter,
                                         help = 'Run simulation live')
     live_parser.set_defaults(func=runLive)
     
@@ -149,16 +109,32 @@ def setupArgParse():
                              default = "",
                              help = "Simulation will be saved in given file name")
 
+    live_parser.add_argument('-l', '--location_file',
+                             type = str,
+                             default = "share/locationList1000.p",
+                             help = "File with car location informations")
+
+    live_parser.add_argument('--rnd_cars',
+                             type = int,
+                             default = None,
+                             help = "Will add given number of cars in random locations. Option will overwrite location file")
+
 
     # record
-    record_parser = subparsers.add_parser('record', parents = [base_parser],
-                                          help = 'Run recorded simulation')
-    record_parser.set_defaults(func=runRecord)
+    replay_parser = subparsers.add_parser('replay', parents = [base_parser],
+                                          formatter_class = argparse.ArgumentDefaultsHelpFormatter,
+                                          help = 'Replay recorded simulation')
+    replay_parser.set_defaults(func=runReplay)
 
-    record_parser.add_argument('-i', '--input_file',
+    replay_parser.add_argument('-i', '--input_file',
                                 type = str,
                                 default = "save_events.pickle",
                                 help = "Input file with recorded data")
+
+    replay_parser.add_argument('--time_per_frame',
+                               type = float,
+                               default = 1.0,
+                               help = "Time intervall to frame")
 
     # return parser
     return main_parser

@@ -35,6 +35,8 @@ def main(argv):
     bgk_injector = BackgroundInjector(threshold=0.4)
     clock.setEnd(1000)
     for _ in clock:
+        if clock.time == 50:
+            clock.reset()
         if doReplay != "":
             update_server(doRecord, doReplay)
             time.sleep(0.5)
@@ -53,7 +55,7 @@ def main(argv):
                                      angle = math.pi/6,
                                      sigma = 0.5,
                                      dt = 3e-7)
-
+        
             
         signals = sig_injector.getSignal()
         background = bgk_injector.getBackground()

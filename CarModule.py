@@ -19,6 +19,16 @@ class Car(object):
         self.__eff = eff
         self.__id = idx
 
+        # http server
+        self.__conn = httplib.HTTPConnection("localhost:5000")
+        self.__url = "/new"
+        self.__headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"} 
+
+    
+    #_______________________________________ 
+    def __del__(self):
+        self.__conn.close()
+
     #_______________________________________ 
     def __str__(self):
         return "Car({0},{1},{2})".format(self.__id,
@@ -94,14 +104,23 @@ class Car(object):
                    "intensity": intensity}
 
         # http server
-        conn = httplib.HTTPConnection("localhost:5000")
-        url = "/new"
-        headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
-        conn.request("POST", url, urllib.urlencode(package),headers)
-        r1 = conn.getresponse()
+        self.__conn.request("POST", 
+                            self.__url, 
+                            urllib.urlencode(package), 
+                            self.__headers)
+        r1 = self.__conn.getresponse()
+        r1.read()
         if r1.reason != "OK":
-            print "error during HTTP request: %s" % r1.reason
-        conn.close()
+            print "Error during HTTP request: %s" % r1.reason
+        
+        #conn = httplib.HTTPConnection("localhost:5000")
+        #url = "/new"
+        #headers = {"Content-type": "application/x-www-form-urlencoded","Accept": "text/plain"}
+        #conn.request("POST", url, urllib.urlencode(package),headers)
+        #r1 = conn.getresponse()
+        #if r1.reason != "OK":
+        #    print "error during HTTP request: %s" % r1.reason
+        #conn.close()
 
 
 
